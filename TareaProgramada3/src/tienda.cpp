@@ -1,5 +1,6 @@
 #include "tienda.h"
 #include <iostream>
+#include <fstream>
 
 Tienda::Tienda(string nombreT, string direccionI, string direccionF, string telefono)
 {
@@ -75,8 +76,6 @@ void Tienda::CargarArchivo(istream *streamEntrada, Tienda *tienda)
 
     cout << cantidadProductos << endl;
 
-    
-
     streamEntrada->seekg(0, std::ios::beg);                // Empezar desde el principio del archivo
     streamEntrada->read((char *)nombreT, sizeof(nombreT)); // variable para guardar y cuántos bytes leo
     location += sizeof(nombreT);
@@ -87,17 +86,77 @@ void Tienda::CargarArchivo(istream *streamEntrada, Tienda *tienda)
     streamEntrada->read((char *)telefono, sizeof(telefono));
     location += sizeof(telefono);
 
-    
-
-     // Empezar desde abajo de la informacion de la tienda
+    // Empezar desde abajo de la informacion de la tienda
     streamEntrada->seekg(location, ios::beg);
-    for (int indice = 0; indice < cantidadProductos; indice++)// Leer cada producto
+    for (int indice = 0; indice < cantidadProductos; indice++) // Leer cada producto
     {
         Producto *producto = new Producto();
         streamEntrada->read((char *)producto, sizeof(Producto));
         this->AgregarProducto(producto);
     }
 }
+
+void Tienda::ModificarTienda(Tienda *tienda)
+{
+    string condicion;
+
+    cout << "¿Desea modificar la información de algun producto? Si' 'No' \n";
+    cin >> condicion;
+
+    int idAModificar;
+    string nombreTemp;
+    int existenciasTemp;
+
+    while (condicion == "Si")
+    {
+        cout << "Ingrese la id del producto que desea modificar \n";
+        cin >> idAModificar;
+
+        cout << "¿Desea modificar el nombre del producto? Si' 'No' \n";
+        cin >> condicion;
+        if(condicion == "Si")
+        {
+        cout << "Ingrese el nuevo nombre \n";
+        cin >> nombreTemp;
+        productos[idAModificar-1]->ModificarNombre(nombreTemp);
+        }
+
+        cout << "¿Desea modificar las existencias del producto? Si' 'No' \n";
+        cin >> condicion;
+        if(condicion == "Si")
+        {
+        cout << "Ingrese las nuevas existencias \n";
+        cin >> existenciasTemp;
+        productos[idAModificar-1]->ModificarExistencias(existenciasTemp);
+        }
+
+        cout << "¿Desea modificar la información de algun otro producto? Si' 'No' \n";
+        cin >> condicion;
+    }
+
+    string nombreArchivo;
+    cout << "Ingrese el nombre del archivo que se generará: ";
+    cin >> nombreArchivo;
+    
+    ofstream archivoDeSalida;
+    archivoDeSalida.open(nombreArchivo + ".dat", ios::out | ios::binary);
+
+    if (!archivoDeSalida.is_open())
+    {
+        cerr << "No se pudo abrir archivo archivo_prueba.dat para escribir los datos";
+    }
+
+    tienda->GuardarArchivo(&archivoDeSalida);
+
+    archivoDeSalida.close();
+}
+        
+
+
+        
+
+
+
 
 ostream &operator<<(ostream &o, const Tienda *tienda)
 {

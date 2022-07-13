@@ -17,10 +17,13 @@ class Producto {
     public:
     Producto(int id, string nombreP, int existencias);
     Producto();
-    
+
     int  ObtenerId();
     string ObtenerNombreP();
     int  ObtenerExistencias();
+
+    void ModificarNombre(string nombreTemp);
+    void ModificarExistencias(int existenciasTemp);
 
     friend ostream& operator << (ostream &o, const Producto *producto);
 

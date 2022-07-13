@@ -83,7 +83,7 @@ int main()
     ifstream archivoDeEntrada;
 
 
-    archivoDeEntrada.open("archivo_prueba.dat", ios::in|ios::binary);
+    archivoDeEntrada.open("c.dat", ios::in|ios::binary);
 
     if (!archivoDeEntrada.is_open())
     {
@@ -96,7 +96,13 @@ int main()
 
     cout << tienda;
 
+    tienda->ModificarTienda(tienda);
+
+    cout << tienda;
+    
     delete tienda;
+
+
     
 }
 

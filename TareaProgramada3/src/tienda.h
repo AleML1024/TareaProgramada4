@@ -31,6 +31,7 @@ class Tienda {
 
     void GuardarArchivo(ostream *streamSalida);
     void CargarArchivo(istream *streamEntrada, Tienda *tienda);
+    void ModificarTienda(Tienda *tienda);
 
     friend ostream& operator << (ostream &o, const Tienda *tienda);
 

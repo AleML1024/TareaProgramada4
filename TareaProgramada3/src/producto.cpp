@@ -34,6 +34,18 @@ int Producto::ObtenerExistencias()
     return this->existencias;
 }
 
+void Producto::ModificarNombre(string nombreTemp)
+{   
+    string nula = "                   ";
+    strcpy(nombreP, nula.c_str());    
+    strcpy(nombreP, nombreTemp.c_str());
+}
+
+void Producto::ModificarExistencias(int existenciasTemp)
+{
+    existencias = existenciasTemp;
+}
+
 ostream& operator << (ostream &o, const Producto *producto)
 {
     o << "[" << producto->id << "] - " << producto->nombreP << " - Existencias: " << producto->existencias << "\n";
