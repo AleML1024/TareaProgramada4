@@ -1,0 +1,13 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/alessandro/TareaProgramada4/TareaProgramada3'
+mkdir -p obj
+mkdir -p bin
+g++ -g -c --std=c++17 -fPIC src/tienda.cpp -o obj/tienda.o -o bin/tienda.o
+g++ -g -c --std=c++17 -fPIC src/producto.cpp -o obj/producto.o -o bin/producto.o
+g++ -g -c --std=c++17 -fPIC src/main.cpp -o bin/main.o
+g++ -g -o bin/tienda bin/main.o  bin/producto.o bin/tienda.o
+g++ -shared -o bin/libtienda.so obj/producto.o obj/tienda.o
+mkdir -p bin/include
+cp src/tienda.h  src/producto.h ./bin/include
+make: Leaving directory '/home/alessandro/TareaProgramada4/TareaProgramada3'
+ 
