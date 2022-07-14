@@ -1,6 +1,7 @@
 #include "tienda.h"
 #include <iostream>
 #include <fstream>
+#include "excepcionRespuestaInvalida.h"
 
 Tienda::Tienda(string nombreT, string direccionI, string direccionF, string telefono)
 {
@@ -99,64 +100,139 @@ void Tienda::CargarArchivo(istream *streamEntrada, Tienda *tienda)
 void Tienda::ModificarTienda(Tienda *tienda)
 {
     string condicion;
-
-    cout << "¿Desea modificar la información de algun producto? Si' 'No' \n";
-    cin >> condicion;
+    while (condicion != "Si" & condicion != "No")
+    {   
+        try{
+            cout << "¿Desea modificar la información de algún producto de su tienda? 'Si' 'No' \n";
+            cin >> condicion;
+        }catch(const ExcepcionRespuestaInvalida& e){
+            cout << "Porfavor responder con 'Si' o 'No' \n";
+        }
+    }
 
     int idAModificar;
     string nombreTemp;
     int existenciasTemp;
 
-    while (condicion == "Si")
+    if (condicion == "Si")
     {
-        cout << "Ingrese la id del producto que desea modificar \n";
-        cin >> idAModificar;
+        while (condicion == "Si")
+        {
+            while (cout << "Ingrese la id del producto que desea modificar:  \n" && !(cin >> idAModificar))
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Dato invalido. Porfavor digite un número.\n";
+            }
 
-        cout << "¿Desea modificar el nombre del producto? Si' 'No' \n";
+            cout << "¿Desea modificar el nombre del producto? 'Si' 'No' \n";
+            cin >> condicion;
+
+           while (condicion != "Si" & condicion != "No")
+            {   
+                try{
+                    cout << "¿Desea modificar el nombre del producto 'Si' 'No' \n";
+                    cin >> condicion;
+                }catch(const ExcepcionRespuestaInvalida& e){
+                    cout << "Porfavor responder con 'Si' o 'No' \n";
+                }
+            }
+
+            if (condicion == "Si")
+            {
+                cout << "Ingrese el nuevo nombre \n";
+                cin >> nombreTemp;
+                productos[idAModificar - 1]->ModificarNombre(nombreTemp);
+
+            }else if(condicion == "No")
+            {
+                cout << "El nombre no ha sido modificado \n";
+            }
+
+            cout << "¿Desea modificar las existencias del producto? 'Si' 'No' \n";
+            cin >> condicion;
+
+            while (condicion != "Si" & condicion != "No")
+            {   
+                try{
+                    cout << "¿Desea modificar las existencias del producto 'Si' 'No' \n";
+                    cin >> condicion;
+                }catch(const ExcepcionRespuestaInvalida& e){
+                    cout << "Porfavor responder con 'Si' o 'No' \n";
+                }
+            }
+
+            if (condicion == "Si")
+            {
+                while (cout << "Ingrese las nuevas existencias \n" && !(cin >> existenciasTemp))
+                {
+                    cin.clear();
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    cout << "Dato invalido. Porfavor digite un número.\n";
+                }
+               
+                productos[idAModificar - 1]->ModificarExistencias(existenciasTemp);
+
+            }else if(condicion == "No")
+            {
+                cout << "Las existencias no han sido modificadas \n";
+            }
+
+            cout << "¿Desea modificar algún otro producto? 'Si' 'No' \n";
+            cin >> condicion;
+
+            while (condicion != "Si" & condicion != "No")
+            {   
+                try{
+                    cout << "¿Desea modificar algún otro producto 'Si' 'No' \n";
+                    cin >> condicion;
+                }catch(const ExcepcionRespuestaInvalida& e){
+                    cout << "Porfavor responder con 'Si' o 'No' \n";
+                }
+            } 
+        }
+        cout << "¿Desea generar un archivo.dat? 'Si' o 'No' \n";
         cin >> condicion;
+
+        while (condicion != "Si" & condicion != "No")
+            {   
+                try{
+                    cout << "¿Desea generar un archivo.dat? 'Si' o 'No' \n";
+                    cin >> condicion;
+                }catch(const ExcepcionRespuestaInvalida& e){
+                    cout << "Porfavor responder con 'Si' o 'No' \n";
+                }
+            } 
+
         if(condicion == "Si")
         {
-        cout << "Ingrese el nuevo nombre \n";
-        cin >> nombreTemp;
-        productos[idAModificar-1]->ModificarNombre(nombreTemp);
-        }
+        string nombreArchivo;
+        cout << "Ingrese el nombre del archivo que se generará: ";
+        cin >> nombreArchivo;
 
-        cout << "¿Desea modificar las existencias del producto? Si' 'No' \n";
-        cin >> condicion;
-        if(condicion == "Si")
+        ofstream archivoDeSalida;
+        archivoDeSalida.open(nombreArchivo + ".dat", ios::out | ios::binary);
+
+        if (!archivoDeSalida.is_open())
         {
-        cout << "Ingrese las nuevas existencias \n";
-        cin >> existenciasTemp;
-        productos[idAModificar-1]->ModificarExistencias(existenciasTemp);
+            cerr << "No se pudo abrir archivo archivo_prueba.dat para escribir los datos";
         }
 
-        cout << "¿Desea modificar la información de algun otro producto? Si' 'No' \n";
-        cin >> condicion;
-    }
+        tienda->GuardarArchivo(&archivoDeSalida);
 
-    string nombreArchivo;
-    cout << "Ingrese el nombre del archivo que se generará: ";
-    cin >> nombreArchivo;
-    
-    ofstream archivoDeSalida;
-    archivoDeSalida.open(nombreArchivo + ".dat", ios::out | ios::binary);
-
-    if (!archivoDeSalida.is_open())
+        archivoDeSalida.close();
+        
+        cout << "Generando archivo.dat...\n";
+        
+        }else if(condicion == "No")
+        {
+            cout << "Saliendo del sistema...\n";
+        }
+    }else if (condicion == "No")
     {
-        cerr << "No se pudo abrir archivo archivo_prueba.dat para escribir los datos";
+        cout << "Saliendo del sistema...\n";
     }
-
-    tienda->GuardarArchivo(&archivoDeSalida);
-
-    archivoDeSalida.close();
 }
-        
-
-
-        
-
-
-
 
 ostream &operator<<(ostream &o, const Tienda *tienda)
 {
