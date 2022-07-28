@@ -7,9 +7,9 @@ all:
 	g++ $(FLAGS) src/producto.cpp -o obj/producto.o -o bin/producto.o
 	g++ $(FLAGS) src/main.cpp -o bin/main.o
 	g++ -g -o bin/tienda bin/main.o  bin/producto.o bin/tienda.o
-	g++ -shared -o bin/libtienda.so obj/producto.o obj/tienda.o
+	g++ -shared -o bin/libtienda.so obj/producto.o obj/tienda.o 
 	mkdir -p bin/include
-	cp src/tienda.h  src/producto.h ./bin/include
+	cp src/tienda.h  src/producto.h src/excepcionRespuestaInvalida.h ./bin/include
 	
 	
 	
