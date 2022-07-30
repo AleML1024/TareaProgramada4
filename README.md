@@ -2,6 +2,8 @@
 Para correr el programa primero se debe presionar el botón de "play" de color verde en la parte inferior izquierda.
 Para hacer "debug" e debe presionar el botón de "play" de color verde con un ícono de insecto en la parte inferior izquierda.
 
+Nota: La tarea programada 3 se encuentra corregida y en funcionamiento para usarla en vs code. Para usarla en Qt tuve que implementar unos métodos extra pero que no son necesarios para correr el programa en vs code.
+
 A continucación unos ejemplos de como funciona el programa :
 ![Screenshot 2022-07-29 195754](https://user-images.githubusercontent.com/104794461/181866530-4f7b9b58-f9e1-43ee-8493-48074284e22d.png)
 ![Tienda Cargada](https://user-images.githubusercontent.com/104794461/181866535-a345c06f-2346-48c9-a7a8-611003d9d03e.png)
